@@ -1,0 +1,36 @@
+\section{Results}
+\label{sec:results}
+
+We evaluate \ours on a subset of 10 diverse markets, generating stories for both ``YES'' and ``NO'' outcomes.
+
+\subsection{Quantitative Performance}
+\begin{table}[t]
+    \centering
+    \resizebox{0.7\textwidth}{!}{
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Metric} & \textbf{Mean Score (1-5)} & \textbf{Std Dev} \\
+        \midrule
+        \consistency & \textbf{4.9} & 0.31 \\
+        \plausibility & 4.1 & 0.88 \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption{Evaluation results ($n=10$ articles). \consistency measures alignment with market outcome; \plausibility measures realistic journalistic tone.}
+    \label{tab:results}
+\end{table}
+
+\Tabref{tab:results} summarizes our findings.
+The system achieves a near-perfect \consistency score of 4.9.
+This indicates that the Multi-Agent separation of concerns successfully prevents the model from hallucinating outcomes that contradict the market's premise.
+The \plausibility score of 4.1 suggests that while the articles are generally convincing, there is still room for improvement in capturing the nuance of specific journalistic sub-genres.
+
+\subsection{Qualitative Analysis}
+\paragraph{Success Case: Sports}
+For the market ``NBA Live Games,'' the \journalist correctly adopted the high-energy, statistical tone of sports reporting.
+It cited specific (fictional but consistent) scores and player stats, demonstrating that the ``World Facts'' provided by the \analyst were sufficient to ground the narrative in the specifics of the season.
+
+\paragraph{Failure Case: Implausible Premises}
+We observed a drop in \plausibility for markets with inherently absurd premises, such as ``Jesus Returns before GTA VI.''
+While the system generated a \textit{consistent} story (reporting on the return), the \evaluator flagged it as implausible news, noting ``the premise is inherently implausible as a news event.''
+This highlights a limitation: the system's realism is bound by the realism of the prediction market itself.

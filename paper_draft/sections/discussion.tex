@@ -1,0 +1,18 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{The Power of Grounding}
+Our key finding is that LLM hallucination in creative writing can be controlled by rigorous grounding in formal criteria.
+By treating the market resolution rules as a logical constraint satisfaction problem (solved by the \analyst) rather than a creative prompt, we force the creative generation (by the \journalist) to stay within the bounds of the predicted future.
+This ``Constraint-then-Generate'' pattern is applicable beyond journalism to any domain requiring counterfactual reasoning.
+
+\paragraph{Limitations}
+Our system currently relies on the text description of markets.
+Some markets rely on external links or implied context that the \analyst might miss.
+Furthermore, as noted in the results, the system struggles to write ``serious'' news about ``silly'' markets.
+Future work should incorporate a ``Tone Match'' classifier to align the article's seriousness with the market's intrinsic gravity.
+
+\paragraph{Broader Implications}
+\ours represents a step towards ``experiential forecasting.''
+Instead of decision-makers staring at a dashboard of percentages, they could read the ``Morning Newspaper of 2026'' to intuitively grasp the consequences of current trends.
+This has potential applications in policy making, risk assessment, and strategic planning.

@@ -1,0 +1,51 @@
+\section{Methodology}
+\label{sec:method}
+
+We frame the problem of ``Future News Generation'' as a conditional generation task: given a market $M$ defined by a question $q$ and resolution criteria $C$, and a target outcome $o \in \{\text{YES}, \text{NO}\}$, generate a news article $A$ such that $A$ implies $o$ while adhering to $C$.
+
+\begin{figure}[t]
+    \centering
+    \begin{center}
+    \fbox{\parbox{0.9\textwidth}{
+        \centering
+        \textbf{Market Data} (Question + Criteria) $\xrightarrow{\text{\analyst}}$ \textbf{World Facts} (Logical Implications) \\
+        $\downarrow$ \\
+        \textbf{World Facts} + \textbf{Outcome} (YES/NO) $\xrightarrow{\text{\journalist}}$ \textbf{News Article} \\
+        $\downarrow$ \\
+        \textbf{News Article} $\xrightarrow{\text{\evaluator}}$ \textbf{Scores} (Consistency, Plausibility)
+    }}
+    \end{center}
+    \caption{Overview of the \ours pipeline. The \analyst acts as a grounding filter, extracting logical constraints ($F$) from raw market data ($M$) before the \journalist synthesizes the narrative ($A$).}
+    \label{fig:method}
+\end{figure}
+
+\subsection{System Architecture}
+Our \ours system utilizes a multi-agent workflow to decompose this task into interpretation and generation phases.
+
+\paragraph{\analyst}
+The primary source of hallucination in zero-shot generation is the model's failure to respect the precise resolution criteria of a market.
+For example, a market about ``AI Safety'' might resolve based on a specific bill passing, not just general progress.
+The \analyst takes the raw market metadata (title, description, resolution rules) and extracts a set of ``World Facts'' $F$.
+These facts are logical implications of the outcome $o$ (e.g., ``If YES: The bill was signed by the President on Date D'').
+Formally, the analyst models $P(F | M, o)$.
+
+\paragraph{\journalist}
+The \journalist agent generates the actual article text.
+It receives the World Facts $F$ and the target outcome $o$, but not the raw, noisy market description.
+This information bottleneck forces the \journalist to rely on the clean, verified facts provided by the \analyst.
+The prompt instructs the agent to adopt a journalistic tone appropriate for the domain (e.g., Sports, Politics, Tech) and to write as if the event has already transpired.
+The generation process is $P(A | F, \text{style})$.
+
+\paragraph{\evaluator (LLM-as-a-Judge)}
+To ensure quality, we employ an automated evaluation loop.
+The \evaluator checks the generated article $A$ against the market outcome $o$ and criteria $C$.
+It assigns scores for:
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item \textbf{\consistency}: Does the story contradict the market outcome? (e.g., saying Trump lost when the market is ``Trump wins'').
+    \item \textbf{\plausibility}: Does the story read like a real news article from a reputable source?
+\end{itemize}
+
+\subsection{Dataset}
+We construct a dataset of the Top 100 markets by liquidity from \manifold.
+This source provides a diverse range of topics, ensuring our system is tested on varied domains (Politics, Sports, AI, Economics).
+We rely on the Manifold API to fetch real-time market data, including the rich textual descriptions essential for our grounding process.

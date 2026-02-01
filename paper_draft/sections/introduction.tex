@@ -1,0 +1,29 @@
+\section{Introduction}
+\label{sec:intro}
+
+The ability to foresee potential futures is a cornerstone of strategic decision-making, yet the primary tools for such foresight---prediction markets---remain inaccessible to lay audiences.
+Platforms like \manifold and Polymarket generate high-quality probabilistic data (e.g., ``60\% chance X happens''), but this quantitative output fails to convey the qualitative reality of the predicted world.
+Humans are narrative thinkers; we understand the world through stories, not just statistics.
+Bridging this gap between abstract probabilities and concrete narratives is essential for making forecasting data actionable and engaging.
+
+As Large Language Models (LLMs) demonstrate increasing capabilities in information synthesis \cite{ai2025foundations} and complex reasoning, they offer a natural solution for narrativizing data.
+However, using LLMs to generate ``news from the future'' presents significant challenges.
+A naive approach---simply prompting a model to write a story about a future event---often leads to hallucinations that contradict the specific, often technical, resolution criteria of the underlying market.
+For instance, a market asking ``Will the US GDP grow by 2\%?'' implies specific economic conditions that a generic story might miss or misrepresent.
+Ensuring that generated narratives are strictly grounded in market definitions while maintaining journalistic flair remains an open problem.
+
+We address this challenge with \ours, a multi-agent framework designed to ``collapse the wave function'' of prediction markets into coherent news stories.
+Our system employs a pipeline of specialized agents: an \analyst that parses technical resolution criteria into ``World Facts,'' and a \journalist that weaves these facts into a compelling narrative (see \figref{fig:method}).
+Unlike standard retrieval-augmented generation (RAG), which retrieves existing documents, our approach performs \textit{generative grounding}, synthesizing new fictional content that is logically consistent with real-world constraints.
+
+We evaluate \ours on a dataset of real-time markets from \manifold, assessing the generated articles for consistency and plausibility using LLM-as-a-Judge metrics.
+Our experiments show that delegating the analysis of resolution criteria to a specialized agent is crucial for performance.
+Quantitative results demonstrate that our method achieves a near-perfect Consistency Score of 4.9/5, effectively eliminating contradictions between the story and the market outcome.
+Qualitatively, the system adapts its tone across domains, from the excitement of sports reporting to the gravity of geopolitical news.
+
+Our contributions are as follows:
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item We propose \ours, a novel multi-agent architecture for transforming probabilistic market data into grounded narrative news.
+    \item We demonstrate that separating ``fact extraction'' (Analyst) from ``narrative generation'' (Journalist) significantly improves the consistency of generated future scenarios.
+    \item We provide an empirical evaluation on real-world prediction markets, establishing a strong baseline for the emerging field of Generative Journalism.
+\end{itemize}

@@ -1,0 +1,33 @@
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ai et~al.(2025)Ai, Zhan, and Lin]{ai2025foundations}
+Qingyao Ai, Jingtao Zhan, and Yiqun Lin.
+\newblock Foundations of genir.
+\newblock \emph{arXiv preprint arXiv:2501.02842}, 2025.
+
+\bibitem[Ai et~al.(2024)Ai, He, Zhang, Zhu, Huo, Yu, Chen, and
+  Wang]{ai2024self}
+Yiming Ai, Zhiwei He, Ziyin Zhang, Wenhong Zhu, Hongkun Huo, Kai Yu, Lingjun
+  Chen, and Rui Wang.
+\newblock Is self-knowledge and action consistent or not: Investigating large
+  language model's personality.
+\newblock \emph{arXiv preprint arXiv:2402.14679}, 2024.
+
+\bibitem[Guo(2024)]{guo2024unmasking}
+Linge Guo.
+\newblock Unmasking the shadows of ai: Investigating deceptive capabilities in
+  large language models.
+\newblock \emph{arXiv preprint arXiv:2403.09676}, 2024.
+
+\bibitem[Wawer and Chudziak(2025)]{wawer2025integrating}
+Michal Wawer and Jaroslaw~A Chudziak.
+\newblock Integrating traditional technical analysis with ai: A multi-agent
+  llm-based approach to stock market forecasting.
+\newblock \emph{arXiv preprint arXiv:2506.16813}, 2025.
+
+\end{thebibliography}

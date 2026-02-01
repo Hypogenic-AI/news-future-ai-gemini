@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage[final]{neurips_2025}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage[hidelinks]{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xspace}
+%\usepackage{algorithm}
+%\usepackage[noend]{algpseudocode}
+\usepackage{natbib}
+
+% Import command files
+\input{commands/math}
+\input{commands/general}
+\input{commands/macros}
+
+\title{News from the Future: Generative Journalism via Prediction Markets}
+
+\author{
+  Haokun Liu \
+  News Future AI Lab \
+  \texttt{haokun@example.com}
+}
+
+\begin{document}
+
+\maketitle
+
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/methodology}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliography{references}
+\bibliographystyle{plainnat}
+
+\appendix
+\section{Appendix}
+\label{sec:appendix}
+Detailed prompts and additional qualitative examples are available in the supplementary material.
+
+\end{document}

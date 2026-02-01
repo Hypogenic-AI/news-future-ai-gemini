@@ -1,0 +1,21 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{LLMs in Financial Forecasting}
+The integration of LLMs into financial analysis has gained significant traction.
+\citet{wawer2025integrating} proposed ``ElliottAgents,'' a multi-agent system that combines traditional technical analysis (Elliott Wave Principle) with AI for stock market forecasting.
+Their work demonstrates that specialized agents can effectively interpret complex market signals and make informed predictions.
+Our work parallels this multi-agent approach but shifts the focus from \textit{predicting} price movements to \textit{narrativizing} the implications of those predictions.
+Where they aim for accuracy in value, we aim for coherence in scenario generation.
+
+\paragraph{Generative Information Retrieval}
+Our system operates within the broader paradigm of Generative Information Retrieval (GenIR).
+\citet{ai2025foundations} define GenIR as moving beyond simple retrieval to ``Information Synthesis,'' where the model generates new content grounded in retrieved data.
+\ours exemplifies this by synthesizing fictional news articles that are nonetheless grounded in the factual ``retrieved'' metadata of prediction markets.
+This distinction between factual grounding and fictional synthesis is key to our contribution.
+
+\paragraph{Consistency and Persona in LLMs}
+Maintaining a consistent persona is critical for generating plausible news.
+\citet{ai2024self} investigated the consistency between an LLM's self-knowledge and its actions, finding that while models can simulate personalities, they often struggle with deep consistency.
+Similarly, \citet{guo2024unmasking} explored the deceptive capabilities of LLMs, noting their ability to generate strategic fiction.
+In our context, we leverage this capacity for ``simulation'' not for deception, but for valid counterfactual reasoning---asking the model to truthfully simulate a world where a specific event has occurred.

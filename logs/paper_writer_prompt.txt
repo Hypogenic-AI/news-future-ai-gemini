@@ -1,0 +1,438 @@
+You are an academic paper writer. Generate a complete NEURIPS style paper
+based on the experiment results provided.
+
+════════════════════════════════════════════════════════════════════════════════
+                         IMPORTANT: BEFORE YOU START
+════════════════════════════════════════════════════════════════════════════════
+
+Before writing any content, you MUST complete these steps:
+
+1. READ THE SKILL: Review the paper-writer skill at templates/skills/paper-writer/SKILL.md
+2. READ THE STYLE GUIDE: Study templates/paper_writing/lab_style_guide.md carefully
+3. REVIEW EXAMPLES: Browse paper_examples/ for formatting and language patterns:
+   - Look at sections/1.introduction.tex for language style
+   - Look at tables/*.tex for table formatting
+   - Look at commands/*.tex for macro usage
+4. USE COMMAND TEMPLATES: Copy templates/paper_writing/commands/ to paper_draft/commands/
+
+CRITICAL: Reference example papers for FORMATTING and LANGUAGE STYLE only.
+Do NOT copy content, phrasing, or narrative structure from the example papers.
+The examples are in a different research domain - focus only on presentation style.
+
+════════════════════════════════════════════════════════════════════════════════
+                            EXPERIMENT REPORT
+════════════════════════════════════════════════════════════════════════════════
+
+# Research Report: News from the Future
+
+## 1. Executive Summary
+This project successfully implemented a &#34;Generative Journalism&#34; system that transforms prediction market data into plausible news articles about future events. By using a multi-agent LLM workflow (Analyst -&gt; Journalist -&gt; Editor), we achieved high consistency (Average Score: 4.9/5) between market probabilities and generated narratives. The system effectively grounds generated text in specific market resolution criteria, solving the problem of abstract probabilistic data being difficult for the public to conceptualize.
+
+## 2. Goal
+The primary goal was to test the hypothesis that **LLMs + Prediction Markets** can generate plausible news from the future.
+- **Problem**: Prediction markets output raw probabilities (e.g., &#34;60% chance&#34;). This is abstract.
+- **Solution**: &#34;News from the Future&#34; visualizes these probabilities as concrete scenarios (stories), aiding in decision-making and engagement.
+
+## 3. Data Construction
+- **Source**: Manifold Markets API.
+- **Dataset**: `datasets/manifold/top_markets.json` (Top 100 markets by liquidity).
+- **Features Used**: Market Question, Description, Resolution Criteria, Close Time.
+
+## 4. Experiment Description
+
+### Methodology: The &#34;Future News Engine&#34;
+We utilized a Multi-Agent LLM architecture:
+1.  **Analyst Agent**: Reads the market metadata and extracts &#34;World Facts&#34; (e.g., &#34;If X happens, Y is implied&#34;). This ensures the story respects the specific resolution criteria of the market.
+2.  **Journalist Agent**: Takes the &#34;World Facts&#34; and the intended outcome (YES/NO) to write a journalistic piece.
+3.  **Evaluator Agent (LLM-as-Judge)**: Scores the output for **Consistency** (Does it match the outcome?) and **Plausibility** (Does it sound real?).
+
+### Implementation
+- **Tech Stack**: Python, OpenAI GPT-4o, Streamlit.
+- **Frontend**: A web interface allowing users to browse markets and generate scenarios on demand.
+
+## 5. Result Analysis
+
+### Quantitative Results (n=10 articles)
+| Metric | Mean Score (1-5) | Interpretation |
+|--------|------------------|----------------|
+| **Consistency** | **4.9** | The model almost never contradicts the market outcome. |
+| **Plausibility** | **4.1** | The articles generally sound like real news. |
+
+### Qualitative Analysis
+- **Success Case**: *NBA Live Games*. The model correctly adopted the tone of sports journalism, citing fictional experts and specific details about the season.
+- **Edge Case**: *Jesus Returns before GTA VI*. The model struggled with Plausibility (Score: 2) for the &#34;YES&#34; case, noting that &#34;the premise is inherently implausible as a news event,&#34; even if the writing was consistent. This highlights a limitation: the system is bound by the realism of the underlying market.
+
+### Key Findings
+1.  **Grounding Works**: Passing the resolution criteria to an &#34;Analyst&#34; agent before generation prevents hallucinations that contradict the market&#39;s specific rules.
+2.  **Tone Adaptation**: The LLM successfully shifts tone between &#34;Sports&#34; (excitement), &#34;Politics&#34; (serious), and &#34;Tech&#34; (analytical) based on the market category.
+
+## 6. Conclusions
+We successfully demonstrated that a &#34;News from the Future&#34; website is a viable application of GenAI. The combination of quantitative market data with qualitative LLM narrative generation creates a compelling user experience that makes the future tangible.
+
+## 7. Next Steps
+- **Multimodal**: Generate images to accompany the articles (e.g., Midjourney).
+- **Personalization**: &#34;News from *Your* Future&#34; based on user-specific prediction markets.
+
+
+════════════════════════════════════════════════════════════════════════════════
+                            RESEARCH PLAN
+════════════════════════════════════════════════════════════════════════════════
+
+# Research Plan: News from the Future
+
+## Motivation &amp; Novelty Assessment
+
+### Why This Research Matters
+Prediction markets aggregate collective wisdom to forecast future events, but their output is typically raw probabilities (e.g., &#34;60% chance X happens&#34;). This data is abstract and dry for the general public. &#34;News from the Future&#34; aims to bridge this gap by converting probabilistic data into concrete, narrative scenarios. This helps decision-makers and the public &#34;feel&#34; the future, making the implications of forecasts more tangible and actionable.
+
+### Gap in Existing Work
+Existing research focuses on *improving* forecasts (using LLMs as agents) or *retrieving* information. There is a lack of work on *narrativizing* these forecasts. While &#34;scenario planning&#34; exists, it is often manual. Automated, data-driven narrative generation grounded in real-time market probabilities is a novel intersection of GenAI and Crowd Forecasting.
+
+### Our Novel Contribution
+We propose a system that uses LLMs to &#34;collapse the wave function&#34; of prediction markets. We treat a market&#39;s probability not just as a number, but as a seed for a generated world state. We will build a prototype &#34;News from the Future&#34; website that presents these generated stories as if they have already happened, grounded in the specific details (resolution criteria) of the markets.
+
+### Experiment Justification
+- **Experiment 1 (Pipeline Validation)**: We must verify that LLMs can accurately parse market resolution criteria to generate consistent stories (e.g., if the market is &#34;Will Trump win?&#34;, the story shouldn&#39;t say he lost *and* won).
+- **Experiment 2 (Prototype Deployment)**: The user requested a website. Building a Streamlit app allows us to test the &#34;User Experience&#34; of future news—is it engaging? Is it confusing?
+
+## Research Question
+Can Large Language Models, grounded in prediction market data, generate plausible and consistent news articles that narrate future events as if they have already occurred?
+
+## Background and Motivation
+Prediction markets are powerful but inaccessible. Stories are the native format of human cognition. We combine the truth-seeking of markets with the storytelling of LLMs.
+
+## Hypothesis Decomposition
+1.  **Grounding**: LLMs can extract key entities and resolution criteria from market metadata.
+2.  **Coherence**: LLMs can generate a news article that is internally consistent with the market&#39;s &#34;YES&#34; or &#34;NO&#34; outcome.
+3.  **Plausibility**: The generated news is indistinguishable in tone/style from real news (though the content is fictional).
+
+## Proposed Methodology
+
+### Approach
+We will implement a &#34;Future News Engine&#34; using a Multi-Agent LLM workflow:
+1.  **Fetcher**: Pulls live data from Manifold Markets (using `datasets/manifold/top_markets.json`).
+2.  **Analyst**: Parses the market description and resolution criteria to extract &#34;World Facts&#34;.
+3.  **Journalist**: Writes a news article based on those World Facts, assuming a specific outcome (e.g., &#34;YES&#34;).
+4.  **Frontend**: A Streamlit web application to display these headlines and articles.
+
+### Experimental Steps
+1.  **Setup**: Initialize `uv` environment and dependencies.
+2.  **Data Ingestion**: Verify `top_markets.json` is populated.
+3.  **Engine Implementation**: Write `src/engine.py` with `generate_news(market_data, outcome)`.
+4.  **Web App**: Build `src/app.py` using Streamlit.
+5.  **Evaluation**: Generate 20 stories (10 YES, 10 NO) and evaluate for coherence.
+
+### Baselines
+- **Zero-shot Generation**: Ask the LLM to &#34;write a story about X&#34; without the specific market resolution details.
+- **Comparison**: Does adding the specific market metadata (resolution criteria) improve the specificity and grounding of the story?
+
+### Evaluation Metrics
+- **Consistency Score (1-5)**: Does the story contradict the market outcome? (LLM-as-Judge).
+- **Specificity Score (1-5)**: Does the story use specific details from the market description? (LLM-as-Judge).
+
+### Statistical Analysis Plan
+- Calculate mean/std for Consistency and Specificity scores.
+- T-test comparing Zero-shot vs. Market-Grounded generation.
+
+## Expected Outcomes
+We expect the Market-Grounded approach to produce significantly more specific and consistent stories than generic zero-shot prompting.
+
+## Timeline and Milestones
+- **Phase 2 (Setup)**: 15 min. Install `streamlit`, `openai`, `requests`, `pandas`.
+- **Phase 3 (Implementation)**: 60 min. Build engine and app.
+- **Phase 4 (Experiment)**: 30 min. Run generation batch.
+- **Phase 5 (Analysis)**: 30 min. Evaluate results.
+- **Phase 6 (Docs)**: 20 min. Write Report.
+
+## Potential Challenges
+- **Token Limits**: Market descriptions can be long. We may need to summarize.
+- **Hallucination**: The LLM might invent facts that contradict the market. The &#34;Analyst&#34; step is designed to mitigate this.
+
+## Success Criteria
+- A functional Streamlit app running locally.
+- A generated report showing &gt;4/5 average Consistency Score.
+
+
+════════════════════════════════════════════════════════════════════════════════
+                          LITERATURE REVIEW
+════════════════════════════════════════════════════════════════════════════════
+
+# Literature Review: News from the Future
+
+## Research Area Overview
+The intersection of Large Language Models (LLMs) and Prediction Markets offers a novel domain for &#34;Generative Journalism&#34; and &#34;Future Forecasting&#34;. This review explores how LLMs can be used to generate plausible narratives about future events based on market probabilities, and how they can participate in markets as forecasting agents.
+
+## Key Papers
+
+### 1. Integrating Traditional Technical Analysis with AI: A Multi-Agent LLM-Based Approach to Stock Market Forecasting
+- **Relevance**: High. Demonstrates a multi-agent system (&#34;ElliottAgents&#34;) for financial forecasting.
+- **Key Insight**: LLMs can successfully interpret complex market data (technical analysis patterns) and make predictions. This supports the hypothesis that LLMs can understand market signals.
+- **Methodology**: Multi-agent framework (Analysis Agent, Risk Agent, etc.) using RAG.
+
+### 2. Foundations of GenIR (Generative Information Retrieval)
+- **Relevance**: High. Discusses &#34;Information Synthesis&#34; and &#34;Information Generation&#34;.
+- **Key Insight**: Generative AI moves beyond retrieval to synthesizing new, grounded content. This is the core mechanism for &#34;generating news&#34; based on prediction market data (the &#34;grounding&#34; source).
+
+### 3. Unmasking the Shadows of AI: Investigating Deceptive Capabilities in LLMs
+- **Relevance**: Medium. Discusses &#34;Strategic Deception&#34;.
+- **Key Insight**: While focused on safety, the ability of LLMs to generate &#34;deceptive&#34; (or in our case, &#34;fictional but plausible&#34;) content is crucial for simulating future news scenarios that haven&#39;t happened yet.
+
+### 4. Is Self-knowledge and Action Consistent: Investigating LLM Personality
+- **Relevance**: Low/Medium.
+- **Key Insight**: Discusses consistency of LLM personas. Relevant for maintaining a consistent &#34;journalist&#34; or &#34;reporter&#34; persona in the news generation system.
+
+## Common Methodologies
+- **Multi-Agent Systems**: Using specialized agents for analysis, risk assessment, and content generation (Paper 1).
+- **RAG (Retrieval-Augmented Generation)**: Grounding generation in external data (market data, technical indicators) to prevent hallucination (Papers 1, 2).
+
+## Datasets in Literature
+- **Financial Data**: Historical stock prices (Paper 1).
+- **Prediction Markets**: implied datasets from platforms like Manifold, Polymarket (implied by domain, though not explicitly central in the gathered papers).
+
+## Gaps and Opportunities
+- **Narrative Generation from Probabilities**: While papers discuss *forecasting* prices, there is a gap in *narrativizing* these forecasts into news stories.
+- **Counterfactual News**: Generating news for events that *might* happen (high probability) vs. those that are unlikely, which is the core of &#34;News from the Future&#34;.
+
+## Recommendations for Experiment
+1.  **Dataset**: Use **Manifold Markets** data as the &#34;ground truth&#34; for future probabilities. It is rich, accessible, and covers diverse topics beyond finance.
+2.  **Methodology**: Adopt a **Multi-Agent** approach (similar to ElliottAgents):
+    -   **Analyst Agent**: Interprets market probability (e.g., &#34;60% chance of X&#34;).
+    -   **Journalist Agent**: Writes the story assuming X happens.
+    -   **Editor Agent**: Verifies plausibility and tone.
+3.  **Metrics**: Evaluate &#34;Plausibility&#34; (human eval or LLM-as-judge) and &#34;Alignment&#34; (does the story match the market probability?).
+
+
+════════════════════════════════════════════════════════════════════════════════
+                          PAPER REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+Generate a complete academic paper with the following structure:
+
+1. TITLE
+   - Clear, specific, informative
+   - Should convey main finding or contribution
+
+2. ABSTRACT (150-250 words)
+   - Problem statement
+   - Approach
+   - Key results
+   - Significance
+
+3. INTRODUCTION
+   - Research problem and motivation
+   - Gap in existing work
+   - Our contribution (be specific)
+   - Paper organization
+
+4. RELATED WORK
+   - Organized by theme/approach
+   - Position our work relative to prior work
+   - Cite papers from literature review
+
+5. METHODOLOGY
+   - Clear description of approach
+   - Experimental setup
+   - Datasets used
+   - Evaluation metrics
+   - Baselines
+
+6. RESULTS
+   - Present results with tables and figures
+   - Statistical analysis
+   - Comparison to baselines
+   - Ablation studies (if applicable)
+
+7. DISCUSSION
+   - Interpretation of results
+   - Limitations
+   - Broader implications
+
+8. CONCLUSION
+   - Summary of contributions
+   - Key findings
+   - Future work
+
+9. REFERENCES
+   - BibTeX format
+   - All cited papers
+
+════════════════════════════════════════════════════════════════════════════════
+                          OUTPUT FORMAT
+════════════════════════════════════════════════════════════════════════════════
+
+Create a MODULAR LaTeX project with the following directory structure:
+
+paper_draft/
+├── main.tex              # Main file that imports all sections
+├── references.bib        # BibTeX references
+├── sections/
+│   ├── abstract.tex      # Abstract content
+│   ├── introduction.tex  # Introduction section
+│   ├── related_work.tex  # Related work section
+│   ├── methodology.tex   # Methodology section
+│   ├── results.tex       # Results section
+│   ├── discussion.tex    # Discussion section
+│   └── conclusion.tex    # Conclusion section
+├── figures/              # Directory for any generated figures
+├── tables/               # Directory for complex standalone tables
+└── appendix/             # Directory for appendix sections (if needed)
+
+INSTRUCTIONS:
+1. First, create the directory structure above (mkdir -p paper_draft/sections paper_draft/figures paper_draft/tables paper_draft/appendix)
+2. Write main.tex using the EXACT preamble for NEURIPS:
+
+   \documentclass{article}
+   \usepackage[final]{neurips_2025}  % NEURIPS style (neurips_2025.sty is in paper_draft/)
+   \usepackage[hidelinks]{hyperref}  % REQUIRED: clickable links
+   \usepackage{booktabs}  % REQUIRED: professional tables
+   \usepackage{graphicx}
+   \usepackage{amsmath,amssymb}
+
+   % Import command files
+   \input{commands/math}
+   \input{commands/general}
+   \input{commands/macros}
+
+   % Use this bibliography style:
+   \bibliographystyle{plainnat}
+
+   - Use \input{sections/...} to include each section
+   - Use \bibliography{references} for references
+3. Write each section file with COMPLETE content (no placeholders)
+4. Each section file should include its \section{} command
+5. Write references.bib with all citations in BibTeX format
+6. After writing all files, compile the paper:
+   cd paper_draft && pdflatex -interaction=nonstopmode main.tex && bibtex main && pdflatex -interaction=nonstopmode main.tex && pdflatex -interaction=nonstopmode main.tex
+
+This modular structure allows humans to easily:
+- Edit individual sections without navigating a large file
+- Track changes per section
+- Reuse sections across different paper versions
+
+════════════════════════════════════════════════════════════════════════════════
+                          QUALITY REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+- Academic tone throughout
+- All claims must be supported by data from the experiment report
+- Proper citations using \cite{} commands
+- Clear figures and tables with proper captions
+- NO placeholder text - every section must have real content
+- The paper MUST compile without errors
+- If compilation fails, debug and fix the LaTeX errors
+
+════════════════════════════════════════════════════════════════════════════════
+                          LAB WRITING STYLE
+════════════════════════════════════════════════════════════════════════════════
+
+Follow these lab-specific conventions to match our paper style:
+
+1. LANGUAGE STYLE:
+   - Use active voice: "We propose", "We examine", "We focus on"
+   - Be direct and confident: "Our main question is...", "We hypothesize that..."
+   - State things clearly and simply - prefer plain language over jargon
+   - Use bold questions as paragraph organizers: {\bf what is X?}
+   - Include specific quantitative claims: "8.97% over baseline"
+   - Avoid fancy wording: "utilize" → "use", "facilitate" → "help"
+
+2. INTRODUCTION STRUCTURE:
+   - Engaging hook (get to the point quickly)
+   - Problem importance
+   - Gap identification
+   - Your approach with method figure reference
+   - Quantitative preview of results
+   - Contribution bullets (3-4 items, action verbs)
+
+3. CONTRIBUTION LISTS:
+   \begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+       \item We propose...
+       \item We conduct...
+       \item We complement...
+   \end{itemize}
+
+4. MODULAR COMMANDS STRUCTURE:
+   Create paper_draft/commands/ directory with:
+   - math.tex: Math notation macros (copy from templates/paper_writing/commands/)
+   - general.tex: Formatting macros (copy from templates/paper_writing/commands/)
+   - macros.tex: Project-specific term definitions
+
+   In main.tex, include:
+   \input{commands/math}
+   \input{commands/general}
+   \input{commands/macros}
+
+5. REFERENCE CONVENTIONS:
+   Use reference macros from math.tex:
+   - \figref{fig:name} for "figure 1" (lowercase, in-sentence)
+   - \Figref{fig:name} for "Figure 1" (capitalized, start of sentence)
+   - \secref{sec:name} for "section 2"
+
+6. TEXT FORMATTING:
+   - Use \para{Header text} for bold paragraph headers
+   - Define method/dataset names with \textsc and \xspace:
+     \newcommand{\methodname}{\textsc{MethodName}\xspace}
+
+7. TABLE FORMATTING:
+   - Use booktabs package (no vertical lines)
+   - Use \resizebox{\textwidth}{!}{...} for wide tables
+   - Use @{} to remove padding at table edges
+   - Use \cmidrule(lr){x-y} for sub-headers
+   - Use \textsc{} for dataset/method names in headers
+   - Bold best results with {\bf ...}
+
+8. FIGURE FORMATTING:
+   - Use 0.32\textwidth for 3-column subfigures
+   - Use 0.95\linewidth for full-width figures
+   - Use \input{figures/legend} for shared legends
+   - Write self-contained captions explaining key observations
+
+9. RESULTS PRESENTATION:
+   - Define \increase and \decrease for colored arrows (green up, red down)
+   - Bold best results in tables
+   - Report confidence intervals when available
+
+10. ALGORITHM STYLING:
+    - Use algpseudocode with [noend]
+    - Use \triangleright for comments
+
+11. HYPERLINKS (REQUIRED):
+    - Always use \usepackage[hidelinks]{hyperref} or with colored links
+    - All citations, section refs, figure refs, table refs must be clickable
+    - This is essential for reader navigation
+
+════════════════════════════════════════════════════════════════════════════════
+                          WORKFLOW: REVIEW AND REFLECT
+════════════════════════════════════════════════════════════════════════════════
+
+Before calling finish, you MUST complete these review steps:
+
+1. REVIEW RESOURCES (at the start):
+   - Read templates/skills/paper-writer/SKILL.md for detailed guidance
+   - Study templates/paper_writing/lab_style_guide.md for style conventions
+   - Browse paper_examples/ for formatting and language patterns
+
+2. SELF-REFLECTION (before finishing):
+   After writing all sections, review your work against these criteria:
+
+   LANGUAGE CHECK:
+   - [ ] Is the writing clear and jargon-free?
+   - [ ] Are claims specific with quantitative support?
+   - [ ] Is active voice used throughout?
+
+   FORMATTING CHECK:
+   - [ ] Does main.tex include \input{commands/math}, \input{commands/general}, \input{commands/macros}?
+   - [ ] Is hyperref package included for clickable references?
+   - [ ] Do tables use booktabs (no vertical lines)?
+   - [ ] Are best results bolded in tables?
+   - [ ] Are figures/tables properly captioned?
+
+   STRUCTURE CHECK:
+   - [ ] Does introduction follow: hook → importance → gap → approach → preview → contributions?
+   - [ ] Are contribution bullets specific with action verbs?
+   - [ ] Does the paper compile without errors?
+
+3. FIX ISSUES:
+   - Address any issues found in the self-reflection
+   - Re-compile and verify the PDF looks correct
+
+Only after completing this review should you consider the paper finished.

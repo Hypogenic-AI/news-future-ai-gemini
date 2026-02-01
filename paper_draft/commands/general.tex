@@ -1,0 +1,20 @@
+\newcommand{\rightcomment}[1]{\(\triangleright\) {\small \it #1}}
+\newcommand{\eqcomment}[1]{\addtocounter{equation}{1}\tag*{\rightcomment{#1}\quad(\theequation)}}
+\usepackage{suffix}
+\WithSuffix\newcommand\eqcomment*[1]{\tag*{\rightcomment{#1}}}
+
+\newcommand{\response}[1]{\vspace{3pt}\hrule\vspace{3pt}\textbf{#1:}}
+%\newcommand{\rebuttal}[1]{\cbstart {#1} \cbend} % cbstart requires changebar package
+\newcommand{\para}[1]{\noindent \textbf{#1}}
+\newcommand{\cutforspace}[1]{}
+
+\definecolor{aigold}{RGB}{244,210, 1}
+\definecolor{aigreen}{RGB}{213, 245, 227}
+\newcommand{\lightgreen}[1]{\fcolorbox{aigreen}{aigreen}{\parbox{\linewidth}{#1}}}
+\definecolor{humanpurple}{RGB}{235, 222, 240}
+\definecolor{mypurple}{RGB}{147,112,219}
+\definecolor{myorange}{RGB}{255,165,0}
+\definecolor{commentgray}{RGB}{86, 101, 115}
+\definecolor{mygray}{RGB}{169,169,169}
+\definecolor{aired}{RGB}{255,180,181}
+\newcommand{\lightred}[1]{\colorbox{aired}{\parbox{\linewidth}{#1}}}
